@@ -1,0 +1,18 @@
+SO i was reading notes form when i didnt come to class, specifically mts notes and i had this nice idea for a webapp... yeahh not another one but hear me out
+
+SO basically, i noticded now the notes indicate the flow but then going over the notes yourself without a teacher or walkthrough isnt really great, you miss or fail to understand the why of a lot of things in the note.
+
+So this is how it should work, AI powered? YES 
+SO you drop the pics of the notes that you have and then the AI will order them right, not that this is a single step, nope. It will basically take them 5 at a time and it will generate an array or a progression that a teacher will take from introduction / justa  short explanation why we care about the point where we are starting from and possibly talk about some preamble knowledge briefly, just before it jumps right into the first / beginning of the main material you ave it 
+
+SO YEAH i was talkign about the progression, it will be a list of Moment objects.
+Each moment will contain: an optional image id of the image we are currently referencing or the student should look at from the images that were uploaded, a list of obstruction polygons, the purpose of this is to block out unrelated or not yet touched context from that image - you know typically in the class you will not be able to see what the lectyurere hasnt talked about yet until that is written but then again, it should be a polygon and not a normal square because sometimes students divide their notes and jot in edges, so we want to show and talk about relevent jottings where necessary wiile blocking out everyother thing - that is why it will be a list because not all of these are connected,  a text of explanation that talks in plain, speech-like engligh the walk through of the current observable / now-observable portion of the note, a text of extra explanation knowledge that will be useful context for that particular concet that is being explained - this one is primarily because some things are mean tto have been done in preceeding courses yet the student might need ot jot hsi or her memory - in fact this should be an object with a title and then the extra so that we can show like a "learn more of [title]" and when that is clicked, we can then show the body of the extra with links / buttons for more explanation if necessary.
+
+
+Yeah so the inteface should be low distraction, core actions type with arrow buttons or tapping extreme edges fo next/back. We will like to use TTS when necessary for the notes but then the text should also just show like captions with a button like a speaker that turns on TTS, we will like that this preference be noted locally. 
+
+Then there will definitely be a place for questions and if that question will potentially be answered or the answer to that question will be talked about soon enough, it can just show that the person will realise why in a bit but an option to force answer or answer now should also be provided.
+
+Then each lessopn set should be extendable and shareable so a user should be able to extend or share a lesson with friends who can later add more image staht will be processed and broken down into many more MOment objects that will be added ot the list. So this indicates we will be usign like a chat feature in querying our AI so that it can have past context.
+
+

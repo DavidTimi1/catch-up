@@ -16,3 +16,23 @@ Then there will definitely be a place for questions and if that question will po
 Then each lessopn set should be extendable and shareable so a user should be able to extend or share a lesson with friends who can later add more image staht will be processed and broken down into many more MOment objects that will be added ot the list. So this indicates we will be usign like a chat feature in querying our AI so that it can have past context.
 
 
+so now i realised that we currently dont suport pdfs and pdfs can be really large and may not fit correctly into what we have,, i am nt excatl ysure how AI sees pdfs - if it sees it as a collection of images or what, but we will have to figure out the best way to handle that
+so we will allow a user to sleclet a pdf and we will need to have a pdf preview for that that works without uploading the pdf at all
+then 
+
+-- NEW
+hmm now based ont he fact that before we had to upload the files andimages to our backend an that then uploaded it to clodinary and gemini, we will be moving away from that to using client side cloudinary uploads as this also works for pdfs and gemnin also accepts file uris so we will be usign an upload preset instead and we will not even have to use tmp sorage 
+so we first upload the files and then pass the urls to our backend
+we will have a upload limit of 10mb for all the things to be uploaded at once 
+
+
+--- IMPLEMENTED ENHANCEMENTS ---
+
+As the platform evolved, several premium features were implemented to ensure the highest quality study environment:
+
+1. Split-View Distraction-Free Layout: The UI was refactored from an obtrusive overlay to a clean split-pane design. The actual notes are cleanly presented on the left, while the captions, controls, and Q&A stay strictly in a dedicated right sidebar.
+2. Advanced Persistent TTS: The text-to-speech doesn't just read—it remembers your preference. Hitting "play" allows it to auto-play continuously as you navigate through moments, automatically cutting out old audio and starting the new one without manual clicking.
+3. Conversational AI Parsing: The AI tutor is instructed to act conversationally, avoiding spelling out huge math symbols rigidly. It also chunks knowledge logically rather than line-by-line, providing a much more human-like teaching progression.
+4. Non-Destructive Masking & Highlight Marker: The masking system was updated so that once a concept is revealed, it stays visible, allowing the student to see the progression. Additionally, a dynamic "Highlight Marker" (SVG path) can animate over specific equations or notes the AI is currently talking about.
+5. Infinite Lesson Extension: Users can continuously add more pages to an existing lesson. The backend automatically fetches the conversational context from the previous moments so the AI can pick right up where it left off.
+6. Premium Dark Mode: Implemented a tailored "Chalkboard/Dark Slate" theme that preserves the textured dot-matrix background, avoiding cheap glassmorphism for a more focused, tactile mathematical aesthetic.

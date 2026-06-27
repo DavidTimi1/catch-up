@@ -9,7 +9,7 @@ Built for myself but you can use too, don't mention... we don't do that here ðŸ˜
 [![PWA](https://img.shields.io/badge/PWA-96CEB4?style=for-the-badge)](#)
 [![Multimodal Learning](https://img.shields.io/badge/Multimodal_Learning-FFEEAD?style=for-the-badge&labelColor=333333)](#)
 
-_Dive into the [Raw Thoughts & Origin Story (Notes App Idea)](./NOTE%20APP%20IDEA.txt) that started this project._
+_Dive into the [Raw Thoughts & Origin Story (Notes App Idea)](./NOTE_APP_IDEA.md) that started this project._
 
 ## Overview
 

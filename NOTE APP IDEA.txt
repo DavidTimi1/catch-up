@@ -26,6 +26,20 @@ so we first upload the files and then pass the urls to our backend
 we will have a upload limit of 10mb for all the things to be uploaded at once 
 
 
+
+
+NOW LEST CREATE ANOTHER VERISON OF THIS APP, making it a progressive web app. lets say that our landing page will be an actual full on lanogn page and we will have 2 core sub app: the one we have worked on so far - the walkthrough app
+and then this one - the interactive reader app
+
+Basically still the same aim but a bit of a difference :
+1. it will be a pdf and image viewer (basically) without the need to upload it, you will be able to open pdfs and images on it, we can have a recently opened and all that but now i think it shoudl be a mobile app, yup itll be a mobile app with reactnative
+so the plan id that you can view pdfs and / images that you select (you can select a number of images) but tehn it is still for study - what makes this special is that you have a pen tool, you can highlight anything and that baically asks ai to explain that part to you in voice-like manner and then another one in written form. The distinction here is that they will basically havethe same explanation but the voice-like is to listen to while the text-like is to reading
+Now back to the pentool, you can highlight anything on the page pdf / image and what it will do is try to first get context from preceeding and postceeding pages (if pdf) or surrounding images sot hat it can be fast and not use too much data - it will then generate a response based on that and then it will give the response in voice (tts) and in text.
+
+SO it is best as a guide and not a full on tutor
+All of a sudden i am getting the urge to conert these 2 projects into 1 web app
+
+
 --- IMPLEMENTED ENHANCEMENTS ---
 
 As the platform evolved, several premium features were implemented to ensure the highest quality study environment:

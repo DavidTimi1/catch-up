@@ -20,7 +20,7 @@ export function TTSController({ textToSpeak, onEnd }: TTSControllerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const synthRef = useRef<SpeechSynthesis | null>(null);
-  const isCanceledRef = useRef(false);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   useEffect(() => {
     synthRef.current = window.speechSynthesis;
@@ -28,7 +28,9 @@ export function TTSController({ textToSpeak, onEnd }: TTSControllerProps) {
     // Cleanup on unmount (navigation)
     return () => {
       if (synthRef.current) {
-        isCanceledRef.current = true;
+        if (utteranceRef.current) {
+          utteranceRef.current.onend = null;
+        }
         synthRef.current.cancel();
       }
     };
@@ -37,11 +39,18 @@ export function TTSController({ textToSpeak, onEnd }: TTSControllerProps) {
   const speak = () => {
     if (!synthRef.current || !textToSpeak) return;
 
-    isCanceledRef.current = true;
+    if (utteranceRef.current) {
+      utteranceRef.current.onend = null;
+      utteranceRef.current.onerror = null;
+    }
+    
+    // Bug fix: Always resume before cancelling to prevent the engine from getting stuck in a paused state
+    synthRef.current.resume();
     synthRef.current.cancel(); // Stop any ongoing speech
-    isCanceledRef.current = false;
     
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utteranceRef.current = utterance;
+
     utterance.onstart = () => {
       setIsPlaying(true);
       setIsPaused(false);
@@ -49,7 +58,7 @@ export function TTSController({ textToSpeak, onEnd }: TTSControllerProps) {
     utterance.onend = () => {
       setIsPlaying(false);
       setIsPaused(false);
-      if (onEnd && !isCanceledRef.current) {
+      if (onEnd && utteranceRef.current === utterance) {
         onEnd();
       }
     };
@@ -60,6 +69,8 @@ export function TTSController({ textToSpeak, onEnd }: TTSControllerProps) {
     utterance.onpause = () => setIsPaused(true);
     utterance.onresume = () => setIsPaused(false);
 
+    // Ensure engine is awake before speaking new utterance
+    synthRef.current.resume();
     synthRef.current.speak(utterance);
   };
 
@@ -73,7 +84,11 @@ export function TTSController({ textToSpeak, onEnd }: TTSControllerProps) {
     setIsTtsAllowed(false);
     localStorage.setItem("math-pace-tts-allowed", "false");
     if (synthRef.current) {
-      isCanceledRef.current = true;
+      if (utteranceRef.current) {
+        utteranceRef.current.onend = null;
+      }
+      // Bug fix: Always resume before cancelling to prevent the engine from getting stuck in a paused state
+      synthRef.current.resume();
       synthRef.current.cancel();
     }
     setIsPlaying(false);
@@ -84,10 +99,11 @@ export function TTSController({ textToSpeak, onEnd }: TTSControllerProps) {
     if (!synthRef.current) return;
     if (isPaused) {
       synthRef.current.resume();
+      setIsPaused(false); // manually update state due to flaky onresume events
     } else if (isPlaying) {
       synthRef.current.pause();
+      setIsPaused(true); // manually update state due to flaky onpause events
     } else {
-      // Not playing, not paused, just speak
       speak();
     }
   };
@@ -99,7 +115,9 @@ export function TTSController({ textToSpeak, onEnd }: TTSControllerProps) {
       speak();
     } else {
       if (synthRef.current) {
-        isCanceledRef.current = true;
+        if (utteranceRef.current) {
+          utteranceRef.current.onend = null;
+        }
         synthRef.current.cancel();
       }
     }

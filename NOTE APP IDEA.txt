@@ -1,43 +1,52 @@
-SO i was reading notes form when i didnt come to class, specifically mts notes and i had this nice idea for a webapp... yeahh not another one but hear me out
+* "Most great inventions are born from man's laziness" ~ David, 2026
 
-SO basically, i noticded now the notes indicate the flow but then going over the notes yourself without a teacher or walkthrough isnt really great, you miss or fail to understand the why of a lot of things in the note.
+
+So I was reading notes from when I didn't come to class, specifically math notes. I was crash studying for a test that was coming up and I really didn't know anything in the course except the title. So I got a coursemates notes and took pictures (ikr normal)
+I was trying to understand the notes using AI and i realised I was basically repeating an action over and over again. 
+Had to pause on the reading and put this idea down so I didn't forget since it was a pretty nice idea for a web app... yeah not another one but hear me out.
+
+
+* "Great engineers end up spending hours for 5 seconds optimization of a task ~ David, 2026"
+
+
+So basically, I noticed now the notes indicate the flow but then going over the notes yourself without a teacher or walkthrough isn't really great, you miss or fail to understand the why of a lot of things in the note.
 
 So this is how it should work, AI powered? YES 
-SO you drop the pics of the notes that you have and then the AI will order them right, not that this is a single step, nope. It will basically take them 5 at a time and it will generate an array or a progression that a teacher will take from introduction / justa  short explanation why we care about the point where we are starting from and possibly talk about some preamble knowledge briefly, just before it jumps right into the first / beginning of the main material you ave it 
+So you drop the pics of the notes that you have and then the AI will order them right, not that this is a single step, nope. It will basically take them 5 at a time and it will generate an array or a progression that a teacher will take from introduction / just a short explanation why we care about the point where we are starting from and possibly talk about some preamble knowledge briefly, just before it jumps right into the first / beginning of the main material you gave it 
 
-SO YEAH i was talkign about the progression, it will be a list of Moment objects.
-Each moment will contain: an optional image id of the image we are currently referencing or the student should look at from the images that were uploaded, a list of obstruction polygons, the purpose of this is to block out unrelated or not yet touched context from that image - you know typically in the class you will not be able to see what the lectyurere hasnt talked about yet until that is written but then again, it should be a polygon and not a normal square because sometimes students divide their notes and jot in edges, so we want to show and talk about relevent jottings where necessary wiile blocking out everyother thing - that is why it will be a list because not all of these are connected,  a text of explanation that talks in plain, speech-like engligh the walk through of the current observable / now-observable portion of the note, a text of extra explanation knowledge that will be useful context for that particular concet that is being explained - this one is primarily because some things are mean tto have been done in preceeding courses yet the student might need ot jot hsi or her memory - in fact this should be an object with a title and then the extra so that we can show like a "learn more of [title]" and when that is clicked, we can then show the body of the extra with links / buttons for more explanation if necessary.
-
-
-Yeah so the inteface should be low distraction, core actions type with arrow buttons or tapping extreme edges fo next/back. We will like to use TTS when necessary for the notes but then the text should also just show like captions with a button like a speaker that turns on TTS, we will like that this preference be noted locally. 
-
-Then there will definitely be a place for questions and if that question will potentially be answered or the answer to that question will be talked about soon enough, it can just show that the person will realise why in a bit but an option to force answer or answer now should also be provided.
-
-Then each lessopn set should be extendable and shareable so a user should be able to extend or share a lesson with friends who can later add more image staht will be processed and broken down into many more MOment objects that will be added ot the list. So this indicates we will be usign like a chat feature in querying our AI so that it can have past context.
+So yeah I was talking about the progression, it will be a list of Moment objects.
+Each moment will contain: an optional image id of the image we are currently referencing or the student should look at from the images that were uploaded, a list of obstruction polygons, the purpose of this is to block out unrelated or not yet touched context from that image - you know typically in the class you will not be able to see what the lecturer hasn't talked about yet until that is written but then again, it should be a polygon and not a normal square because sometimes students divide their notes and jot in edges, so we want to show and talk about relevant jottings where necessary while blocking out every other thing - that is why it will be a list because not all of these are connected, a text of explanation that talks in plain, speech-like English the walkthrough of the current observable / now-observable portion of the note, a text of extra explanation knowledge that will be useful context for that particular concept that is being explained - this one is primarily because some things are meant to have been done in preceding courses yet the student might need to jog his or her memory - in fact this should be an object with a title and then the extra so that we can show like a "learn more of [title]" and when that is clicked, we can then show the body of the extra with links / buttons for more explanation if necessary.
 
 
-so now i realised that we currently dont suport pdfs and pdfs can be really large and may not fit correctly into what we have,, i am nt excatl ysure how AI sees pdfs - if it sees it as a collection of images or what, but we will have to figure out the best way to handle that
-so we will allow a user to sleclet a pdf and we will need to have a pdf preview for that that works without uploading the pdf at all
-then 
+Yeah so the interface should be low distraction, core actions type with arrow buttons or tapping extreme edges for next/back. We will like to use TTS when necessary for the notes but then the text should also just show like captions with a button like a speaker that turns on TTS, we will like that this preference be noted locally. 
+
+Then there will definitely be a place for questions and if that question will potentially be answered or the answer to that question will be talked about soon enough, it can just show that the person will realize why in a bit but an option to force answer or answer now should also be provided.
+
+Then each lesson set should be extendable and shareable so a user should be able to extend or share a lesson with friends who can later add more images that will be processed and broken down into many more Moment objects that will be added to the list. So this indicates we will be using like a chat feature in querying our AI so that it can have past context.
+
+
+So now I realized that we currently don't support PDFs and PDFs can be really large and may not fit correctly into what we have, I am not exactly sure how AI sees PDFs - if it sees it as a collection of images or what, but we will have to figure out the best way to handle that.
+So we will allow a user to select a PDF and we will need to have a PDF preview for that that works without uploading the PDF at all.
+
 
 -- NEW
-hmm now based ont he fact that before we had to upload the files andimages to our backend an that then uploaded it to clodinary and gemini, we will be moving away from that to using client side cloudinary uploads as this also works for pdfs and gemnin also accepts file uris so we will be usign an upload preset instead and we will not even have to use tmp sorage 
-so we first upload the files and then pass the urls to our backend
-we will have a upload limit of 10mb for all the things to be uploaded at once 
+Hmm now based on the fact that before we had to upload the files and images to our backend and that then uploaded it to Cloudinary and Gemini, we will be moving away from that to using client side Cloudinary uploads as this also works for PDFs and Gemini also accepts file URIs so we will be using an upload preset instead and we will not even have to use tmp storage.
+So we first upload the files and then pass the URLs to our backend.
+We will have an upload limit of 10mb for all the things to be uploaded at once. 
 
 
 
 
-NOW LEST CREATE ANOTHER VERISON OF THIS APP, making it a progressive web app. lets say that our landing page will be an actual full on lanogn page and we will have 2 core sub app: the one we have worked on so far - the walkthrough app
+NOW LET'S CREATE ANOTHER VERSION OF THIS APP, making it a progressive web app. Let's say that our landing page will be an actual full on landing page and we will have 2 core sub apps: the one we have worked on so far - the walkthrough app
 and then this one - the interactive reader app
 
-Basically still the same aim but a bit of a difference :
-1. it will be a pdf and image viewer (basically) without the need to upload it, you will be able to open pdfs and images on it, we can have a recently opened and all that but now i think it shoudl be a mobile app, yup itll be a mobile app with reactnative
-so the plan id that you can view pdfs and / images that you select (you can select a number of images) but tehn it is still for study - what makes this special is that you have a pen tool, you can highlight anything and that baically asks ai to explain that part to you in voice-like manner and then another one in written form. The distinction here is that they will basically havethe same explanation but the voice-like is to listen to while the text-like is to reading
-Now back to the pentool, you can highlight anything on the page pdf / image and what it will do is try to first get context from preceeding and postceeding pages (if pdf) or surrounding images sot hat it can be fast and not use too much data - it will then generate a response based on that and then it will give the response in voice (tts) and in text.
+Basically still the same aim but a bit of a difference:
+1. It will be a PDF and image viewer (basically) without the need to upload it, you will be able to open PDFs and images on it, we can have a recently opened and all that but now I think it should be a mobile app, yup it'll be a mobile app with React Native.
+So the plan is that you can view PDFs and / images that you select (you can select a number of images) but then it is still for study - what makes this special is that you have a pen tool, you can highlight anything and that basically asks AI to explain that part to you in a voice-like manner and then another one in written form. The distinction here is that they will basically have the same explanation but the voice-like is to listen to while the text-like is to read.
+Now back to the pen tool, you can highlight anything on the page PDF / image and what it will do is try to first get context from preceding and succeeding pages (if PDF) or surrounding images so that it can be fast and not use too much data - it will then generate a response based on that and then it will give the response in voice (TTS) and in text.
 
-SO it is best as a guide and not a full on tutor
-All of a sudden i am getting the urge to conert these 2 projects into 1 web app
+So it is best as a guide and not a full on tutor.
+All of a sudden I am getting the urge to convert these 2 projects into 1 web app.
 
 
 --- IMPLEMENTED ENHANCEMENTS ---

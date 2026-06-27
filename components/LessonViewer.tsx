@@ -10,12 +10,14 @@ import { ChevronLeft, ChevronRight, Loader2, Info, Share2, Plus } from "lucide-r
 import { motion, AnimatePresence } from "framer-motion";
 import { useModal } from "@/components/providers/modal-provider";
 import { ExtendLessonModal } from "./ExtendLessonModal";
+import { getFileFromCache } from "@/lib/localCache";
 
 export function LessonViewer({ lessonId }: { lessonId: string }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [lesson, setLesson] = useState<any>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [displayUrl, setDisplayUrl] = useState<string>("");
   const { showModal } = useModal();
 
   const fetchLesson = useCallback(() => {
@@ -67,6 +69,37 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
     alert("Lesson link copied to clipboard!");
   };
 
+
+  const currentMoment = lesson? (lesson?.moments[currentIndex] || lesson?.moments[lesson?.moments.length - 1]) : null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const currentImage = lesson?.images?.find((img: any) => img.id === currentMoment?.imageId) || lesson?.images[0];
+
+
+  useEffect(() => {
+    if (!currentImage) return;
+    let active = true;
+    
+    const loadCache = async () => {
+      try {
+        const file = await getFileFromCache(currentImage.publicId);
+        if (file && active) {
+          setDisplayUrl(URL.createObjectURL(file));
+        } else if (active) {
+          setDisplayUrl(currentImage.url);
+        }
+      } catch {
+        if (active) setDisplayUrl(currentImage.url);
+      }
+    };
+    
+    loadCache();
+    
+    return () => {
+      active = false;
+    };
+  }, [currentImage]);
+
+
   const handleExtend = () => {
     showModal(
       <ExtendLessonModal 
@@ -96,10 +129,6 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
       </div>
     );
   }
-
-  const currentMoment = lesson.moments[currentIndex] || lesson.moments[lesson.moments.length - 1];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const currentImage = lesson.images.find((img: any) => img.id === currentMoment?.imageId) || lesson.images[0];
 
   return (
     <div className="h-screen w-full flex flex-col overflow-hidden font-sans bg-transparent">
@@ -136,7 +165,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
           <div className="absolute right-0 top-0 w-1/6 h-full z-20 cursor-pointer md:hidden" onClick={handleNext} />
           
           <ImageMaskOverlay 
-            imageUrl={currentImage.url} 
+            imageUrl={displayUrl || currentImage.url} 
             polygons={typeof currentMoment.polygons === "string" ? JSON.parse(currentMoment.polygons) : currentMoment.polygons} 
             highlightLines={currentMoment.highlightLines ? (typeof currentMoment.highlightLines === "string" ? JSON.parse(currentMoment.highlightLines) : currentMoment.highlightLines) : undefined}
           />

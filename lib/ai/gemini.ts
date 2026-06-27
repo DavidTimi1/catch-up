@@ -11,23 +11,23 @@ const getAI = () => {
 
 export class GeminiService implements IAIService {
   async generateMoments(filePaths: string[], context?: string): Promise<MomentData[]> {
-    const fs = await import("fs/promises");
-
-    const imageParts = await Promise.all(
-      filePaths.map(async (filePath) => {
-        const buffer = await fs.readFile(filePath);
-        let mimeType = "image/jpeg";
-        if (filePath.endsWith(".png")) mimeType = "image/png";
-        else if (filePath.endsWith(".gif")) mimeType = "image/gif";
+    const fileParts = filePaths.map((fileUrl) => {
+        let mime_type = "image/jpeg";
+        let type = "image";
+        
+        if (fileUrl.toLowerCase().endsWith(".png")) mime_type = "image/png";
+        else if (fileUrl.toLowerCase().endsWith(".gif")) mime_type = "image/gif";
+        else if (fileUrl.toLowerCase().endsWith(".pdf")) {
+          mime_type = "application/pdf";
+          type = "document";
+        }
 
         return {
-          inlineData: {
-            data: buffer.toString("base64"),
-            mimeType,
-          },
+          type,
+          uri: fileUrl,
+          mime_type,
         };
       })
-    );
 
     const prompt = `
       You are an expert tutor guiding a student through a set of handwritten or printed notes.
@@ -70,20 +70,16 @@ export class GeminiService implements IAIService {
     `;
 
     const ai = getAI();
-    const response = await ai.models.generateContent({
+    const response = await ai.interactions.create({
       model: "gemini-2.5-flash",
-      contents: [
-        {
-          role: "user",
-          parts: [
-            ...imageParts,
-            { text: prompt },
-          ],
-        },
+      input: [
+        { type: "text", text: prompt },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...fileParts as any[]
       ],
     });
 
-    const responseText = response.text || "[]";
+    const responseText = response.output_text || "[]";
     const cleanedJson = cleanAIJsonData(responseText);
 
     try {
@@ -118,12 +114,12 @@ export class GeminiService implements IAIService {
     `;
 
     const ai = getAI();
-    const response = await ai.models.generateContent({
+    const response = await ai.interactions.create({
       model: "gemini-2.5-flash",
-      contents: prompt,
+      input: prompt,
     });
 
-    const responseText = response.text || "{}";
+    const responseText = response.output_text || "{}";
     const cleanedJson = cleanAIJsonData(responseText);
 
     try {
